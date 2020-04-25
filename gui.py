@@ -398,6 +398,5 @@ if __name__ == '__main__':
         sys.exit(app.exec_())
     except Exception as er:
         app = QtWidgets.QApplication([])
-        win = Warn('no err')
-        win.ErrorMessage("Error: " + str(er))
+        win = Warn(er)
         sys.exit(app.exec_())
