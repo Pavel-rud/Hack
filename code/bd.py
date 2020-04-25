@@ -1,8 +1,6 @@
 import pymysql
 
 
-
-
 class MySQL(): # Функции для подключения и работы с БД
 
     def connect(host, username, password, dbname): # Создания подключения к БД
