@@ -20,16 +20,17 @@ def get_product():
         product_count[i] = ans.count(i)
     top_5 = [i for i in reversed(sorted(product_count.values()))][:5]
     res = dict()
-    print(1)
     connection = pymysql.connect('37.140.192.116', 'u1001983_mipt', 'MiptHack', 'u1001983_mipthack',
                                  cursorclass=DictCursor, port=3306)
     cursor = connection.cursor()
     for i in product_count.keys():
         if product_count[i] in top_5:
-            queue = f"""SELECT Название_продукта FROM Supply_orders  WHERE ProductId = '{i}'"""
+            queue = f"""SELECT '1', Название_продукта FROM Supply_orders  WHERE ProductId = '{i}' ORDER BY '1' DESC LIMIT 100"""
             cursor.execute(queue)
             a = cursor.fetchone()
             res[product_count[i]] = a['Название_продукта']
+            if len(res) == 5:
+                break
     return res
 
 
@@ -45,4 +46,3 @@ def get_cols():
     for i in set(ans):
         res[i] = ans.count(i)
     return res
-print(get_product())
