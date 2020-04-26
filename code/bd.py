@@ -1,4 +1,6 @@
 import pymysql
+import openpyxl
+from pymysql.cursors import DictCursor
 
 
 class MySQL(): # Функции для подключения и работы с БД
@@ -34,40 +36,52 @@ class MySQL(): # Функции для подключения и работы с
             return 144 # Возврат "145", как сигнала о непредвиденной ошибке
 
 
-    def sign_in(self):
-        global connection
-        MySQL.connect('37.140.192.116', 'u1001983_mipthack', 'u1001983_mipt', 'MiptHack')
-        login = self.login.text()
-        pwd = self.pwd.text()
-        check1 = MySQL.check_login(login)
-        if check1 == 0:
-            check2 = MySQL.check_password(login, pwd)
-            if check2 == 0:
-                print('LOG (OK): Successful enter')
-                queue = """SELECT * FROM users WHERE login = '""" + login + """'"""
-                cursor = connection.cursor()
-                cursor.execute(queue)
-                ans = cursor.fetchone()
-                if ans['role'] == 'noactive':
-                    self.win = Warn('Ваш аккаунт ожидает подтверждения: с Вами свяжется модератор через почту, указанную в ходе регистрации.')
-                    self.win.show()
-                if ans['role'] == 'moderator':
-                    self.win = Moderate(login)
-                    self.win.show()
-                    self.close()
 
-            elif check2 == 143:
-                print('LOG (ERROR): Incorrect password')
-                self.win = Warn(
-                    'Вы ввели неверный пароль. Попробуйте ещё раз!')
-                self.win.show()
-            elif check2 == 144:
-                print('LOG (ERROR): Unexpected error')
-                self.win = Warn(
-                    'Произошла непредвиденная ошибка!')
-                self.win.show()
-        else:
-            print("LOG (ERROR): User don't exists")
-            self.win = Warn(
-                'Пользователя не существует!')
-            self.win.show()
+def import_technial_map(name):
+    wb = openpyxl.load_workbook(filename=name)
+    sheet = wb['Sheet1']
+
+    val = sheet['A1'].value
+
+    vals = []
+    n = 0
+    while True:
+        n += 1
+        val = [sheet[f'A{n}'].value, sheet[f'B{n}'].value, sheet[f'C{n}'].value, sheet[f'D{n}'].value,
+               sheet[f'E{n}'].value, sheet[f'F{n}'].value, sheet[f'G{n}'].value,
+               sheet[f'H{n}'].value, sheet[f'I{n}'].value, sheet[f'J{n}'].value,
+               sheet[f'K{n}'].value, sheet[f'L{n}'].value, sheet[f'M{n}'].value,
+               sheet[f'N{n}'].value, sheet[f'O{n}'].value, sheet[f'P{n}'].value,
+               sheet[f'Q{n}'].value, sheet[f'R{n}'].value, sheet[f'S{n}'].value]
+        vals.append(val)
+        if val[1] is None:
+            break
+    vals = vals[1:]
+    print(vals)
+    MySQL.connect('37.140.192.116', 'u1001983_mipt', 'MiptHack', 'u1001983_mipthack')
+    queue = f"""INSERT INTO COLs (#, COLAalloc, Quantity, MinQuantity, MaxQuantity,
+             HasSalesBudgetReservation, RequiresOrderCombination, NrOfActiveRoutingChainUpstream, 
+             SelectedShippingShop, ВидГП, DeliveryType, ImgPlannedStatus, RoutingId, Name,
+              ProductId, ProductName, LatestDesiredDeliveryDate, ProductSpecificationId, ResourceGroupIds)  
+            VALUES (11, {str("afadf")}, {float(0.4)}, {float(0.4)}, {float(0.4)}, {str("afadf")},{str("afadf")},
+{4}, {3}, {str("afadf")}, {"afadf"}, {"afadf"},{"afadf"},
+{str("afadf")}, {str("afadf")}, {str("afadf")}, {"afadf"}, {"afadf"}, {"afadf"}) """
+    cursor = connection.cursor()
+    cursor.execute(queue)
+    ans = cursor.fetchone()
+    for i in range(0):
+        MySQL.connect('37.140.192.116', 'u1001983_mipt', 'MiptHack', 'u1001983_mipthack')
+        queue = f"""INSERT INTO COLs (#, COLAalloc, Quantity, MinQuantity, MaxQuantity,
+         HasSalesBudgetReservation, RequiresOrderCombination, NrOfActiveRoutingChainUpstream, 
+         SelectedShippingShop, ВидГП, DeliveryType, ImgPlannedStatus, RoutingId, Name,
+          ProductId, ProductName, LatestDesiredDeliveryDate, ProductSpecificationId, ResourceGroupIds)  
+        VALUES ({int(vals[i][0])}, {str(vals[i][1])}, {float(vals[i][2])}, {float(vals[i][3])}, {float(vals[i][4])}, {str(vals[i][5])},
+        {str(vals[i][6])}, {int(vals[i][7])}, {int(vals[i][8])}, {str(vals[i][9])}, {str(vals[i][10])}, {str(vals[i][11])},
+        {str(vals[i][12])}, {str(vals[i][13])}, {str(vals[i][14])}, {str(vals[i][15])}, {str(vals[i][16])},
+        {str(vals[i][17])}, {str(vals[i][18])}) """
+        cursor = connection.cursor()
+        cursor.execute(queue)
+        ans = cursor.fetchone()
+
+
+import_technial_map("/Users/pavelru/PycharmProjects/Hack/Excel/01.COLs.xlsx")
