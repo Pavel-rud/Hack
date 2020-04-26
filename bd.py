@@ -35,10 +35,8 @@ from datetime import datetime, timedelta
 
 def get_recommendations(cols):  # запихни то что возвращает get_cols()
     middle = sum(cols.values()) / len(cols.values())
-    print(str(datetime.now())[8:10])
     recommend = []
     for i in cols:
-        print(i)
         if cols[i] > middle:  # and int(i.split("-")[0]) - int(str(datetime.now())[8:10]) > 2:
             recommend.append(f"Советуем перенести часть работы с {i} на более ранние даты, чтоб уменьшить загруженность")
         elif cols[i] < middle / 2:
