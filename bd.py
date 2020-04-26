@@ -33,6 +33,21 @@ from datetime import datetime, timedelta
 #    return res
 
 
+def get_recommendations(cols):  # запихни то что возвращает get_cols()
+    middle = sum(cols.values()) / len(cols.values())
+    print(str(datetime.now())[8:10])
+    recommend = []
+    for i in cols:
+        print(i)
+        if cols[i] > middle:  # and int(i.split("-")[0]) - int(str(datetime.now())[8:10]) > 2:
+            recommend.append(f"Советуем перенести часть работы с {i} на более ранние даты, чтоб уменьшить загруженность")
+        elif cols[i] < middle / 2:
+            recommend.append(f"{i} -  малая нагрузка ")
+    if len(cols) < 15:
+        recommend.append(f"В этом месяце мала нагрузка, увеличьте её")
+    return recommend
+
+
 def get_cols():
     year, month = str(datetime.now())[:7].split("-")
     month = ["янв", "фев", "мар", "апр", "мая", "июн", "июл", "авг", "сен", "окт", "ноя", "дек"][int(month) - 1]
