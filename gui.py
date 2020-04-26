@@ -155,7 +155,7 @@ class Auth(QMainWindow): # Окно авторизации
                     """) # Дизайн поля "Пароль"
 
         self.signin.clicked.connect(self.sign_in) # Передача кнопке "Войти" функции sign_in
-        #self.reg.clicked.connect(self.register) # Передача кнопке "Регистрация" функции register
+        self.reg.clicked.connect(self.register) # Передача кнопке "Регистрация" функции register
         self.closed.clicked.connect(closebtn) # Передача кнопке "Закрыть" задачи закрытия окна
 
         self.move(QApplication.instance().desktop().screen().rect().center()
@@ -194,7 +194,183 @@ class Auth(QMainWindow): # Окно авторизации
             print("LOG (ERROR): User don't exists")
             self.win = Warn(
                 'Пользователя не существует!')
+    def register(self):
+        self.win = Register()
+        self.win.show()
+        self.close()
 
+
+class Register(QMainWindow): # Окно регистрации
+
+    def center(self): # Для свободного перемещения окна (Централизация окна)
+        qr = self.frameGeometry()
+        cp = QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
+
+    def mousePressEvent(self, event): # Для свободного перемещения окна
+        if event.button() == Qt.LeftButton:
+            self.__press_pos = event.pos()
+
+    def mouseReleaseEvent(self, event): # Для свободного перемещения окна
+        if event.button() == Qt.LeftButton:
+            self.__press_pos = None
+
+    def mouseMoveEvent(self, event): # Для свободного перемещения окна
+        if self.__press_pos:
+            self.move(self.pos() + (event.pos() - self.__press_pos))
+
+    def __init__(self): # Инициализация класса
+        super().__init__()
+        self.initUI()
+
+    def initUI(self): # Инициализация интерфейса
+        def closebtn():
+            sys.exit()
+        global path
+        path = path.replace("\\","/") # Нормализация пути
+        uic.loadUi(path + "/register.ui", self) # Загрузка интерфейса из .ui файла
+        self.pwd.setEchoMode(QLineEdit.Password) # Замена знаков в поле "Пароль"
+        self.setAttribute(Qt.WA_TranslucentBackground, True) # Удаление рамок окна от ОС
+        self.setWindowFlags(Qt.FramelessWindowHint) # Удаление рамок окна от ОС
+        #self.setWindowIcon(QIcon(path + '/logo.png'))
+        self.setStyleSheet("""background-image:url(""" + path + """/bg-register.png);""")  # Фон
+        self.confirm.setStyleSheet("""
+                                           QPushButton:!hover { background-image:url(""" + path + """/confirm.png) }
+                                           QPushButton:hover { background-image:url(""" + path + """/confirm_hover.png) };
+                                       """) # Дизайн кнопки "Войти"
+        self.cancel.setStyleSheet("""
+                                           QPushButton:!hover { background-image:url(""" + path + """/cancel.png) }
+                                           QPushButton:hover { background-image:url(""" + path + """/cancel_hover.png) };
+                                       """) # Дизайн кнопки "Регистрация"
+        self.closed.setStyleSheet("""
+                                                                   QPushButton { border:none; background-image:url(""" + path + """/close.png) }
+                                                               """)  # Дизайн кнопки "Закрыть"
+        self.loglbl.setStyleSheet('color: #eff5ff; background: transparent;')
+        self.pwdlbl.setStyleSheet("color: #eff5ff; background: transparent;")
+        self.lnlbl.setStyleSheet("color: #eff5ff; background: transparent;")
+        self.fnlbl.setStyleSheet("color: #eff5ff; background: transparent;")
+        self.mnlbl.setStyleSheet("color: #eff5ff; background: transparent;")
+        self.iclbl.setStyleSheet("color: #eff5ff; background: transparent;")
+        self.login.setStyleSheet("""QLineEdit {
+                        border: 1px solid #eff5ff;
+                        border-radius: 5px;
+                        padding: 0 5px;
+                        background: transparent;
+                        selection-background-color: darkgray;
+                        color: #eff5ff;
+                        }
+                    """) # Дизайн поля "Логин"
+
+        self.pwd.setStyleSheet("""QLineEdit {
+                        border: 1px solid #eff5ff;
+                        border-radius: 5px;
+                        padding: 0 5px;
+                        background: transparent;
+                        selection-background-color: darkgray;
+                        color: #eff5ff;
+                        }
+                    """) # Дизайн поля "Пароль"
+        self.lana.setStyleSheet("""QLineEdit {
+                        border: 1px solid #eff5ff;
+                        border-radius: 5px;
+                        padding: 0 5px;
+                        background: transparent;
+                        selection-background-color: darkgray;
+                        color: #eff5ff;
+                        }
+                    """) # Дизайн поля "Пароль"
+        self.fina.setStyleSheet("""QLineEdit {
+                        border: 1px solid #eff5ff;
+                        border-radius: 5px;
+                        padding: 0 5px;
+                        background: transparent;
+                        selection-background-color: darkgray;
+                        color: #eff5ff;
+                        }
+                    """) # Дизайн поля "Пароль"
+        self.mina.setStyleSheet("""QLineEdit {
+                        border: 1px solid #eff5ff;
+                        border-radius: 5px;
+                        padding: 0 5px;
+                        background: transparent;
+                        selection-background-color: darkgray;
+                        color: #eff5ff;
+                        }
+                    """) # Дизайн поля "Пароль"
+        self.icode.setStyleSheet("""QLineEdit {
+                        border: 1px solid #eff5ff;
+                        border-radius: 5px;
+                        padding: 0 5px;
+                        background: transparent;
+                        selection-background-color: darkgray;
+                        color: #eff5ff;
+                        }
+                    """) # Дизайн поля "Пароль"
+
+        self.cancel.clicked.connect(self.canceled) # Передача кнопке "Войти" функции sign_in
+        self.confirm.clicked.connect(self.register) # Передача кнопке "Регистрация" функции register
+        self.closed.clicked.connect(closebtn) # Передача кнопке "Закрыть" задачи закрытия окна
+
+        self.move(QApplication.instance().desktop().screen().rect().center()
+                  - self.rect().center()) # Для свободного перемещения окна
+
+    def canceled(self):
+        self.close()
+        self.win = Auth()
+        self.win.show()
+
+    def register(self):
+        flag = 0
+        login = self.login.text()
+        pwd = self.pwd.text()
+        lana = self.lana.text()
+        fina = self.fina.text()
+        mina = self.mina.text()
+        icode = self.icode.text()
+        if (login == '') or (pwd == '') or (lana == '') or (fina == '') or (mina == '') or (icode == ''):
+            self.warn = Warn('Необходимо заполнить все поля!')
+            flag = 1
+        if flag == 0:
+            print('ok')
+            MySQL.connect('37.140.192.116', 'u1001983_mipt', 'MiptHack', 'u1001983_mipthack')
+            check1 = MySQL.check_login(login)
+            print('ok')
+            if check1 == 0:
+                self.warn = Warn('Пользователь с таким именем уже существует!')
+                flag = 1
+        if flag == 0:
+            print('ok')
+            MySQL.connect('37.140.192.116', 'u1001983_mipt', 'MiptHack', 'u1001983_mipthack')
+            queue = """SELECT * FROM ICodes WHERE id = '""" + icode + """'"""
+            cursor = connection.cursor()
+            cursor.execute(queue)
+            ans = cursor.fetchone()
+            print('ok')
+            try:
+                if ans['id'] == ans['id']:
+                    factory = ans['factory']
+            except:
+                self.warn = Warn('Такого Invite Code не существует!')
+                flag = 1
+        if flag == 0:
+            print('ok')
+            MySQL.connect('37.140.192.116', 'u1001983_mipt', 'MiptHack', 'u1001983_mipthack')
+            queue = """INSERT INTO users (login, password, lastname, firstname, middlename, role, factory) VALUES (%s, %s, %s, %s, %s, %s, %s)"""
+            cursor = connection.cursor()
+            cursor.execute(queue, (login, pwd, lana, fina, mina, 'moderator', factory))
+            ans = cursor.fetchone()
+            connection.commit()
+            MySQL.connect('37.140.192.116', 'u1001983_mipt', 'MiptHack', 'u1001983_mipthack')
+            queue = "DELETE FROM ICodes WHERE id = '" + icode + "'"
+            cursor = connection.cursor()
+            cursor.execute(queue)
+            ans = cursor.fetchone()
+            connection.commit()
+            self.warn = Warn2('Регистрация прошла успешно!')
+            self.close()
+            self.win = Auth()
+            self.win.show()
 class Warn(QMainWindow): # Окно с сообщением
 
     def __init__(self, text):  # Инициализация класса
@@ -207,6 +383,24 @@ class Warn(QMainWindow): # Окно с сообщением
 
     def ErrorMessage(self, text):
         buttonReply = QMessageBox.critical(self, "Error", text)
+        if int(buttonReply) == 1024:
+            self.close()
+
+    def okay(self):
+        self.close()
+
+class Warn2(QMainWindow): # Окно с сообщением
+
+    def __init__(self, text):  # Инициализация класса
+        super().__init__()
+        self.ErrorMessage(text)
+
+    def initUI(self, text):
+        # Инициализация интерфейса
+        print('no interface')
+
+    def ErrorMessage(self, text):
+        buttonReply = QMessageBox. information(self, "Success", text)
         if int(buttonReply) == 1024:
             self.close()
 
