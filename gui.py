@@ -176,7 +176,7 @@ class Auth(QMainWindow): # Окно авторизации
                 cursor.execute(queue)
                 ans = cursor.fetchone()
                 if ans['role'] == 'noactive':
-                        self.win = Warn('Ваш аккаунт ожидает подтверждения: с Вами свяжется модератор через почту, указанную в ходе регистрации.')
+                    self.win = Warn('Ваш аккаунт ожидает подтверждения: с Вами свяжется модератор через почту, указанную в ходе регистрации.')
                 if ans['role'] == 'moderator':
                     self.win = Dashboard(login)
                     self.win.show()
@@ -296,37 +296,37 @@ class Dashboard(QMainWindow): # Окно авторизации
         if ans['status'] == 'STOP':
             self.status_2.setText("Ваше производство остановлено, аналитика недоступна")
         #self.signin.setStyleSheet("""
-                  #                         QPushButton:!hover { background-image:url(""" + path + """/sign_in.png) }
-               #                            QPushButton:hover { background-image:url(""" + path + """/sign_in_hover.png) };
-                     #                  """) # Дизайн кнопки "Войти"
-      #  self.reg.setStyleSheet("""
-           #                                QPushButton:!hover { background-image:url(""" + path + """/register.png) }
-           #                                QPushButton:hover { background-image:url(""" + path + """/register_hover.png) };
-            #                           """) # Дизайн кнопки "Регистрация"
+        #                         QPushButton:!hover { background-image:url(""" + path + """/sign_in.png) }
+        #                            QPushButton:hover { background-image:url(""" + path + """/sign_in_hover.png) };
+        #                  """) # Дизайн кнопки "Войти"
+        #  self.reg.setStyleSheet("""
+        #                                QPushButton:!hover { background-image:url(""" + path + """/register.png) }
+        #                                QPushButton:hover { background-image:url(""" + path + """/register_hover.png) };
+        #                           """) # Дизайн кнопки "Регистрация"
         self.closed.setStyleSheet("""
                                                                    QPushButton { border:none; background-image:url(""" + path + """/close.png) }
                                                                """)  # Дизайн кнопки "Закрыть"
         #self.loglbl.setStyleSheet('color: #eff5ff; background: #0e1d39; font-family: "Segoe UI Semilight";')
         #self.pwdlbl.setStyleSheet("color: #eff5ff; background: #0e1d39;")
         #self.login.setStyleSheet("""QLineEdit {
-                     #   border: 1px solid #eff5ff;
-                     #   border-radius: 5px;
-                    #    padding: 0 5px;
-                     #   background: #0e1d39;
-                     #   selection-background-color: darkgray;
-                     #   color: #eff5ff;
-                     #   }
-                #    """) # Дизайн поля "Логин"
+        #   border: 1px solid #eff5ff;
+        #   border-radius: 5px;
+        #    padding: 0 5px;
+        #   background: #0e1d39;
+        #   selection-background-color: darkgray;
+        #   color: #eff5ff;
+        #   }
+        #    """) # Дизайн поля "Логин"
 
-      #  self.pwd.setStyleSheet("""QLineEdit {
-                     #   border: 1px solid #eff5ff;
-                   #     border-radius: 5px;
-                     #   padding: 0 5px;
-                     #   background: #0e1d39;
-                      #  selection-background-color: darkgray;
-                     #   color: #eff5ff;
-                     #   }
-                  #  """) # Дизайн поля "Пароль"
+        #  self.pwd.setStyleSheet("""QLineEdit {
+        #   border: 1px solid #eff5ff;
+        #     border-radius: 5px;
+        #   padding: 0 5px;
+        #   background: #0e1d39;
+        #  selection-background-color: darkgray;
+        #   color: #eff5ff;
+        #   }
+        #  """) # Дизайн поля "Пароль"
 
         #self.signin.clicked.connect(self.sign_in) # Передача кнопке "Войти" функции sign_in
         #self.reg.clicked.connect(self.register) # Передача кнопке "Регистрация" функции register

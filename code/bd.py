@@ -58,30 +58,19 @@ def import_technial_map(name):
             break
     vals = vals[1:]
     print(vals)
-    MySQL.connect('37.140.192.116', 'u1001983_mipt', 'MiptHack', 'u1001983_mipthack')
-    queue = f"""INSERT INTO COLs (#, COLAalloc, Quantity, MinQuantity, MaxQuantity,
-             HasSalesBudgetReservation, RequiresOrderCombination, NrOfActiveRoutingChainUpstream, 
-             SelectedShippingShop, ВидГП, DeliveryType, ImgPlannedStatus, RoutingId, Name,
-              ProductId, ProductName, LatestDesiredDeliveryDate, ProductSpecificationId, ResourceGroupIds)  
-            VALUES (11, {str("afadf")}, {float(0.4)}, {float(0.4)}, {float(0.4)}, {str("afadf")},{str("afadf")},
-{4}, {3}, {str("afadf")}, {"afadf"}, {"afadf"},{"afadf"},
-{str("afadf")}, {str("afadf")}, {str("afadf")}, {"afadf"}, {"afadf"}, {"afadf"}) """
-    cursor = connection.cursor()
-    cursor.execute(queue)
-    ans = cursor.fetchone()
-    for i in range(0):
-        MySQL.connect('37.140.192.116', 'u1001983_mipt', 'MiptHack', 'u1001983_mipthack')
-        queue = f"""INSERT INTO COLs (#, COLAalloc, Quantity, MinQuantity, MaxQuantity,
-         HasSalesBudgetReservation, RequiresOrderCombination, NrOfActiveRoutingChainUpstream, 
-         SelectedShippingShop, ВидГП, DeliveryType, ImgPlannedStatus, RoutingId, Name,
-          ProductId, ProductName, LatestDesiredDeliveryDate, ProductSpecificationId, ResourceGroupIds)  
-        VALUES ({int(vals[i][0])}, {str(vals[i][1])}, {float(vals[i][2])}, {float(vals[i][3])}, {float(vals[i][4])}, {str(vals[i][5])},
-        {str(vals[i][6])}, {int(vals[i][7])}, {int(vals[i][8])}, {str(vals[i][9])}, {str(vals[i][10])}, {str(vals[i][11])},
-        {str(vals[i][12])}, {str(vals[i][13])}, {str(vals[i][14])}, {str(vals[i][15])}, {str(vals[i][16])},
-        {str(vals[i][17])}, {str(vals[i][18])}) """
-        cursor = connection.cursor()
-        cursor.execute(queue)
-        ans = cursor.fetchone()
+    for i in range(len(vals)):
+        try:
+            MySQL.connect('37.140.192.116', 'u1001983_mipt', 'MiptHack', 'u1001983_mipthack')
+            queue = """INSERT INTO COLs VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+            cursor = connection.cursor()
+            cursor.execute(queue, (int(vals[i][0]), str(vals[i][1]), float(vals[i][2]), float(vals[i][3]), float(vals[i][4]), str(vals[i][5]),
+                                   str(vals[i][6]), int(vals[i][7]), int(vals[i][8]), str(vals[i][9]), str(vals[i][10]), str(vals[i][11]),
+                                   str(vals[i][12]), str(vals[i][13]), str(vals[i][14]), str(vals[i][15]), str(vals[i][16]),
+                                   str(vals[i][17]), str(vals[i][18])))
+            connection.commit()
+            print('yes')
+        except Exception as e:
+            print(e)
 
 
-import_technial_map("/Users/pavelru/PycharmProjects/Hack/Excel/01.COLs.xlsx")
+import_technial_map("C:/Users/KSoft.Dev/Desktop/Excel/01.COLs.xlsx")
