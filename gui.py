@@ -14,6 +14,7 @@ import pymysql
 import urllib
 from pymysql.cursors import DictCursor
 from ftplib import FTP
+from bd import *
 import webbrowser
 global path
 global file
@@ -500,6 +501,25 @@ class Dashboard(QMainWindow): # Окно авторизации
         self.closed.setStyleSheet("""
                                                                    QPushButton { border:none; background-image:url(""" + path + """/close.png) }
                                                                """)  # Дизайн кнопки "Закрыть"
+        res = get_cols()
+        sum = 0
+        for i in res:
+            sum += res[i]
+        self.name_5.setText(str(sum) + " з.")
+        top5 = 'Рейтинг дней по заказам:\n'
+        lists = []
+        list_d = list(res.items())
+        list_d.sort(key=lambda i: i[1], reverse=True)
+        print(list_d)
+        for i in list_d:
+            top5 += i[0].split('.-')[0] + ' - ' + str(i[1]) + '\n'
+        self.name_7.setText(top5)
+        timed = datetime.today()
+        datee = int(timed.strftime("%d"))
+        for i in list_d:
+            if int(i[0].split('-')[0]) >= datee:
+                self.name_6.setText(i[0].split('.-')[0] + '.')
+                break
         #self.loglbl.setStyleSheet('color: #eff5ff; background: #0e1d39; font-family: "Segoe UI Semilight";')
         #self.pwdlbl.setStyleSheet("color: #eff5ff; background: #0e1d39;")
         #self.login.setStyleSheet("""QLineEdit {
